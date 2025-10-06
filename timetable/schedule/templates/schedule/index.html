@@ -1,0 +1,519 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+
+  <head id="i7lg">
+    <title id="i0mq">Thời gian biểu</title>
+    <meta charset="utf-8" id="il8n" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" id="ir5e" />
+    <meta name="robots" content="index,follow">
+    <meta name="generator" content="GrapesJS Studio">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'schedule/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Poppins:wght@600;700&amp;display=swap" rel="stylesheet" id="irqa8" />
+  </head>
+
+  <body id="ijdg" class="gjs-t-body">
+    <header id="ioc2h" class="page-header">
+      <div id="iys92" class="header-container">
+        <div id="iup98" class="brand-area">
+          <img src="https://api.iconify.design/lucide-calendar-days.svg" alt="Biểu tượng Lịch" loading="lazy" id="idju2" class="brand-icon" />
+          <h1 id="ihgai" class="gjs-t-h2 brand-title">Thời gian biểu</h1>
+        </div>
+        <nav id="i98oe" class="header-actions">
+          <button type="button" id="exportCsvBtn" class="gjs-t-button export-csv-button">Xuất CSV</button>
+        </nav>
+      </div>
+    </header>
+    <main id="iu5ui" class="main-content">
+      <section id="ibxkb" class="intro-section">
+        <div id="iy3m5" class="gjs-t-border intro-card">
+          <div id="ir8d9" class="intro-header">
+            <div id="i2w5k" class="intro-title-block">
+              <img src="https://api.iconify.design/lucide-clock-8.svg" alt="Biểu tượng Đồng hồ" loading="lazy" id="i4n5r" class="intro-icon" />
+              <h2 id="i65xs" class="gjs-t-h2">Lập kế hoạch tuần từ Thứ Hai đến Chủ Nhật, 00:00–23:59</h2>
+            </div>
+            <div id="iprxl" class="primary-actions">
+              <a href="#timetable" id="icblz" class="gjs-t-link skip-to-table-link">Đến bảng</a>
+            </div>
+          </div>
+          <p id="ifzlf" class="intro-description">
+            Nhập lịch của bạn trong ô văn bản để tự động chuyển thành bảng, hoặc chỉnh sửa bảng trực tiếp. Chọn độ dài khung hoặc số khung mỗi ngày để tạo bảng theo ý muốn.
+          </p>
+        </div>
+      </section>
+      <section id="ih0ux" class="controls-section">
+        <div id="ili12" class="gjs-t-border controls-card">
+          <div id="izetk" class="controls-layout">
+            <div id="i2hj2" class="mode-toggle-group">
+              <button type="button" id="tabTextBtn" class="mode-button-text">Nhập văn bản</button>
+              <button type="button" id="tabTableBtn" class="mode-button-table">Nhập bảng</button>
+            </div>
+            <div id="iv8h6" class="slot-controls-group">
+              <div id="iq6pc" class="slot-duration-field">
+                <label for="slotMinutes" id="itlcs" class="slot-duration-label">Độ dài khung (phút)</label>
+                <select type="text" id="slotMinutes" class="slot-duration-select">
+                  <option value="60" id="i5dn4">60</option>
+                  <option value="30" id="iqf0u">30</option>
+                  <option value="20" id="ikyin">20</option>
+                  <option value="15" id="i71hs">15</option>
+                  <option value="10" id="inz3t">10</option>
+                  <option value="5" id="i2tjz">5</option>
+                </select>
+              </div>
+              <div id="i0bbo" class="slots-per-day-field">
+                <label for="slotsPerDay" id="iy4ew" class="slots-per-day-label">Số khung mỗi ngày</label>
+                <input type="number" id="slotsPerDay" min="1" max="1440" step="1" value="24" class="slots-per-day-input" />
+              </div>
+              <div id="i8mic" class="auto-parse-toggle">
+                <input type="checkbox" id="autoParse" checked class="auto-parse-checkbox" />
+                <label for="autoParse" id="idb0v" class="auto-parse-label">Tự động phân tích văn bản</label>
+              </div>
+              <button type="button" id="clearTableBtn" class="clear-table-button">Xóa bảng</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="ixymo" class="input-panels-section">
+        <div id="iimz6" class="panels-container">
+          <div id="textPanel" class="gjs-t-border text-panel">
+            <div id="i7ltn" class="text-panel-header">
+              <h3 id="im2ub" class="text-panel-title">Nhập lịch bằng văn bản</h3>
+              <button type="button" id="applyTextBtn" class="gjs-t-button apply-text-button">Áp dụng vào bảng</button>
+            </div>
+            <p id="iaemi" class="text-panel-help">
+              Mỗi dòng một mục. Định dạng: Ngày HH:MM-HH:MM Tiêu đề. Ví dụ:
+            </p>
+            <ul id="ijnwv" class="examples-list">
+              <li id="i6dhd">Thứ Hai 09:00-10:30 Toán</li>
+              <li id="i0wn6">Thứ Tư 13:15-14:00 Văn</li>
+              <li id="i8q13">Chủ Nhật 20:00-23:00 Ngủ</li>
+            </ul>
+            <textarea id="scheduleText" rows="8" placeholder="Thứ Hai 08:00-09:00 Tập thể dục
+Thứ Ba 09:30-11:00 Nghiên cứu
+Thứ Sáu 13:00-15:00 Dự án trọng tâm" class="schedule-textarea"></textarea>
+          </div>
+          <div id="tablePanel" class="gjs-t-border table-panel">
+            <div id="iz8cd" class="table-panel-header">
+              <h3 id="ivcpy" class="table-panel-title">Nhập trực tiếp vào bảng</h3>
+              <p id="ihwhl" class="table-panel-hint">Chỉnh sửa các ô bên dưới. Thay đổi độ dài khung hoặc số khung mỗi ngày để tạo lại.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="timetable">
+        <div id="id9ki" class="gjs-t-border table-wrapper">
+          <table id="timetableTable" class="timetable-table">
+            <thead id="ijj0es" class="timetable-head">
+              <tr id="i929cg">
+                <th id="i9cs2a" class="header-cell-time">Thời gian</th>
+                <th id="iw006i" class="header-cell-monday">Thứ Hai</th>
+                <th id="ijmv4h" class="header-cell-tuesday">Thứ Ba</th>
+                <th id="i2h8gi" class="header-cell-wednesday">Thứ Tư</th>
+                <th id="ivau0o" class="header-cell-thursday">Thứ Năm</th>
+                <th id="irp1dv" class="header-cell-friday">Thứ Sáu</th>
+                <th id="ipoa0j" class="header-cell-saturday">Thứ Bảy</th>
+                <th id="i0ad86" class="header-cell-sunday">Chủ Nhật</th>
+              </tr>
+            </thead>
+            <tbody id="timetableBody">
+              <tr id="iyeayg" class="row">
+                <td id="iwym8t" class="cell"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="i5z271" class="legend-and-notes">
+          <small id="is5fjh" class="time-coverage-note">Phạm vi: Thứ Hai đến Chủ Nhật, 00:00–23:59</small>
+          <small id="ic5r6m" class="edit-hint">Mẹo: Nhấp đúp vào ô để xóa nội dung.</small>
+        </div>
+      </section>
+    </main>
+    <footer id="ithipe" class="page-footer">
+      <div id="iamvyj" class="footer-container">
+        <p id="ibsk2n" class="footer-copy">© Trình lập lịch</p>
+        <div id="iqzcrf" class="footer-links">
+          <a href="#textPanel" id="ii4g7j" class="gjs-t-link footer-link-help">Cách sử dụng</a>
+          <a href="#timetable" id="i5t6uc" class="gjs-t-link footer-link-table">Đến bảng</a>
+        </div>
+      </div>
+    </footer>
+    <script id="iakcst">
+      (() => {
+        const days = ["Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy", "Chủ Nhật"];
+        const dayIndexMap = {
+          // English
+          mon: 0,
+          monday: 0,
+          tue: 1,
+          tues: 1,
+          tuesday: 1,
+          wed: 2,
+          weds: 2,
+          wednesday: 2,
+          thu: 3,
+          thur: 3,
+          thurs: 3,
+          thursday: 3,
+          fri: 4,
+          friday: 4,
+          sat: 5,
+          saturday: 5,
+          sun: 6,
+          sunday: 6,
+          // Vietnamese (with and without diacritics / variants)
+          "thu hai": 0,
+          "thứ hai": 0,
+          "thu 2": 0,
+          "thứ 2": 0,
+          "th2": 0,
+          "t2": 0,
+          "th 2": 0,
+          "thu ba": 1,
+          "thứ ba": 1,
+          "thu 3": 1,
+          "thứ 3": 1,
+          "th3": 1,
+          "t3": 1,
+          "th 3": 1,
+          "thu tu": 2,
+          "thu tư": 2,
+          "thứ tư": 2,
+          "thu 4": 2,
+          "thứ 4": 2,
+          "th4": 2,
+          "t4": 2,
+          "th 4": 2,
+          "thu nam": 3,
+          "thứ năm": 3,
+          "thu 5": 3,
+          "thứ 5": 3,
+          "th5": 3,
+          "t5": 3,
+          "th 5": 3,
+          "thu sau": 4,
+          "thứ sáu": 4,
+          "thu 6": 4,
+          "thứ 6": 4,
+          "th6": 4,
+          "t6": 4,
+          "th 6": 4,
+          "thu bay": 5,
+          "thứ bảy": 5,
+          "thu 7": 5,
+          "thứ 7": 5,
+          "th7": 5,
+          "t7": 5,
+          "th 7": 5,
+          "chu nhat": 6,
+          "chủ nhật": 6,
+          "cn": 6
+        };
+
+        const timetableBody = document.getElementById("timetableBody");
+        const slotMinutesSelect = document.getElementById("slotMinutes");
+        const slotsPerDayInput = document.getElementById("slotsPerDay");
+        const scheduleText = document.getElementById("scheduleText");
+        const autoParse = document.getElementById("autoParse");
+        const applyTextBtn = document.getElementById("applyTextBtn");
+        const clearTableBtn = document.getElementById("clearTableBtn");
+        const exportCsvBtn = document.getElementById("exportCsvBtn");
+
+        const tabTextBtn = document.getElementById("tabTextBtn");
+        const tabTableBtn = document.getElementById("tabTableBtn");
+        const textPanel = document.getElementById("textPanel");
+        const tablePanel = document.getElementById("tablePanel");
+
+        let slots = [];
+        let slotSize = 60; // minutes
+
+        // Highlight helpers: mark any row containing <b> or <strong>
+        function updateRowHighlight(tr) {
+          if (!tr) return;
+          const hasBold = !!(tr.querySelector && tr.querySelector("b, strong"));
+          if (hasBold) tr.classList.add("highlight-bold-row");
+          else tr.classList.remove("highlight-bold-row");
+        }
+
+        function rescanAllRowsForBold() {
+          for (let r = 0; r < timetableBody.rows.length; r++) {
+            updateRowHighlight(timetableBody.rows[r]);
+          }
+        }
+
+        function pad(n) {
+          return String(n).padStart(2, '0');
+        }
+
+        function minutesToHHMM(m) {
+          if (m < 0) m = 0;
+          if (m > 1439) m = 1439;
+          const h = Math.floor(m / 60),
+            mm = m % 60;
+          return `${pad(h)}:${pad(mm)}`;
+        }
+
+        function hhmmToMinutes(str) {
+          const m = String(str || "").trim().match(/^(\d{1,2}):(\d{2})$/);
+          if (!m) return null;
+          let h = parseInt(m[1], 10),
+            mm = parseInt(m[2], 10);
+          if (h < 0 || h > 23 || mm < 0 || mm > 59) return null;
+          return h * 60 + mm;
+        }
+
+        function generateSlotsByDuration(mins) {
+          const res = [];
+          let t = 0;
+          while (t < 1440) {
+            const start = t;
+            let end = t + mins;
+            if (end > 1440) end = 1440;
+            res.push({
+              start,
+              end: end - 1
+            }); // end inclusive at 23:59 max
+            t += mins;
+          }
+          return res;
+        }
+
+        function generateSlotsByCount(count) {
+          count = Math.max(1, Math.min(1440, Math.floor(count)));
+          const size = Math.floor(1440 / count) || 1;
+          return generateSlotsByDuration(size);
+        }
+
+        function buildTable() {
+          timetableBody.innerHTML = "";
+          slots.forEach((slot, idx) => {
+            const tr = document.createElement("tr");
+            tr.setAttribute("data-gjs-name", "Timetable Row");
+            // time cell
+            const timeTd = document.createElement("td");
+            timeTd.setAttribute("data-gjs-name", "Time Cell");
+            timeTd.className = "px-4 py-2 border-b border-[var(--gjs-border)] text-sm text-[var(--gjs-muted)] align-top";
+            const label = `${minutesToHHMM(slot.start)} - ${minutesToHHMM(slot.end)}`;
+            timeTd.textContent = label;
+            timeTd.dataset.slotIndex = String(idx);
+            timeTd.dataset.slotStart = String(slot.start);
+            timeTd.dataset.slotEnd = String(slot.end);
+            tr.appendChild(timeTd);
+            // day cells
+            for (let d = 0; d < 7; d++) {
+              const td = document.createElement("td");
+              td.setAttribute("data-gjs-name", "Editable Day Cell");
+              td.className = "px-4 py-2 border-b border-[var(--gjs-border)] align-top break-words";
+              td.contentEditable = "true";
+              td.dataset.dayIndex = String(d);
+              td.dataset.slotIndex = String(idx);
+              td.addEventListener("dblclick", () => {
+                td.textContent = "";
+              });
+              tr.appendChild(td);
+            }
+            timetableBody.appendChild(tr);
+          });
+          // initial scan (mostly no bold at creation)
+          rescanAllRowsForBold();
+        }
+
+        function setSlotMinutes(mins) {
+          slotSize = mins;
+          slots = generateSlotsByDuration(mins);
+          slotsPerDayInput.value = String(slots.length);
+          buildTable();
+          rescanAllRowsForBold();
+        }
+
+        function setSlotsPerDay(count) {
+          slots = generateSlotsByCount(count);
+          const effective = slots[1] ? (slots[1].start - slots[0].start) : 1440;
+          slotSize = effective;
+          // Try to select matching option in dropdown, else keep current value displayed
+          const match = Array.from(slotMinutesSelect.options).find(o => Number(o.value) === effective);
+          if (match) {
+            slotMinutesSelect.value = String(effective);
+          }
+          slotsPerDayInput.value = String(slots.length);
+          buildTable();
+          rescanAllRowsForBold();
+        }
+
+        function placeEvent(dayIdx, startMin, endMin, title) {
+          if (dayIdx < 0 || dayIdx > 6) return;
+          const cleanTitle = (title || "").trim();
+          if (!cleanTitle) return;
+          for (let i = 0; i < slots.length; i++) {
+            const s = slots[i];
+            const overlaps = !(s.end < startMin || s.start > endMin);
+            if (overlaps) {
+              // find cell: row i, col dayIdx -> tbody row i, cell index dayIdx+1
+              const row = timetableBody.rows[i];
+              if (!row) continue;
+              const cell = row.cells[dayIdx + 1];
+              if (!cell) continue;
+              // Append event title (stack multiple events with newline)
+              const existing = cell.textContent?.trim();
+              cell.textContent = existing ? `${existing}\n${cleanTitle}` : cleanTitle;
+              updateRowHighlight(row);
+            }
+          }
+        }
+
+        function normalizeDayCandidates(str) {
+          const s = String(str || "").trim().toLowerCase().replace(/\./g, "").replace(/\s+/g, " ");
+          const noAccent = s.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+          return [s, noAccent];
+        }
+
+        function parseTextAndApply() {
+          const txt = scheduleText.value || "";
+          const lines = txt.split(/\r?\n/);
+          // clear all cells first
+          for (let r = 0; r < timetableBody.rows.length; r++) {
+            const row = timetableBody.rows[r];
+            for (let c = 1; c < row.cells.length; c++) {
+              row.cells[c].textContent = "";
+            }
+            updateRowHighlight(row);
+          }
+          lines.forEach(line => {
+            const raw = (line || "").trim();
+            if (!raw) return;
+            let norm = raw.replace(/\s+to\s+/i, "-").replace(/–/g, "-").replace(/\s*—\s*/g, " - ").replace(/\s+/g, " ").trim();
+            const m = norm.match(/^(.+?)\s+(\d{1,2}:\d{2})\s*-\s*(\d{1,2}:\d{2})(?:\s*[:-]\s*)?(.*)$/i);
+            if (!m) return;
+            const dayStr = m[1];
+            let dIdx;
+            for (const k of normalizeDayCandidates(dayStr)) {
+              if (typeof dayIndexMap[k] !== "undefined") {
+                dIdx = dayIndexMap[k];
+                break;
+              }
+            }
+            const start = hhmmToMinutes(m[2]);
+            const end = hhmmToMinutes(m[3]);
+            const title = (m[4] || "").trim() || `${m[2]}-${m[3]}`;
+            if (typeof dIdx === "undefined" || start === null || end === null) return;
+            const s = Math.max(0, Math.min(1439, start));
+            const e = Math.max(0, Math.min(1439, end));
+            const [a, b] = s <= e ? [s, e] : [e, s];
+            placeEvent(dIdx, a, b, title);
+          });
+          rescanAllRowsForBold();
+        }
+
+        function exportCSV() {
+          const headers = ["Thời gian", ...days];
+          const rows = [];
+          rows.push(headers.map(v => `"${v}"`).join(","));
+          for (let r = 0; r < timetableBody.rows.length; r++) {
+            const row = timetableBody.rows[r];
+            const out = [];
+            for (let c = 0; c < row.cells.length; c++) {
+              let val = row.cells[c].textContent || "";
+              val = val.replace(/"/g, '""');
+              out.push(`"${val}"`);
+            }
+            rows.push(out.join(","));
+          }
+          const blob = new Blob([rows.join("\n")], {
+            type: "text/csv;charset=utf-8;"
+          });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.setAttribute("data-gjs-name", "Temporary Download Link");
+          a.href = url;
+          a.download = "timetable.csv";
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+          }, 0);
+        }
+
+        // Tabs
+        function activateTextTab() {
+          tabTextBtn.classList.add("bg-[var(--gjs-surface)]");
+          tabTableBtn.classList.remove("bg-[var(--gjs-surface)]");
+          textPanel.classList.remove("hidden");
+          tablePanel.classList.add("hidden");
+        }
+
+        function activateTableTab() {
+          tabTableBtn.classList.add("bg-[var(--gjs-surface)]");
+          tabTextBtn.classList.remove("bg-[var(--gjs-surface)]");
+          tablePanel.classList.remove("hidden");
+          textPanel.classList.add("hidden");
+        }
+
+        // Init
+        setSlotMinutes(slotSize);
+
+        // Listeners
+        slotMinutesSelect.addEventListener("change", e => {
+          const v = Number(e.target.value) || 60;
+          setSlotMinutes(v);
+          if (autoParse.checked) parseTextAndApply();
+        });
+        slotsPerDayInput.addEventListener("change", e => {
+          const v = Number(e.target.value) || 24;
+          setSlotsPerDay(v);
+          if (autoParse.checked) parseTextAndApply();
+        });
+
+        let parseTimer = null;
+        scheduleText.addEventListener("input", () => {
+          if (!autoParse.checked) return;
+          clearTimeout(parseTimer);
+          parseTimer = setTimeout(parseTextAndApply, 400);
+        });
+        applyTextBtn.addEventListener("click", parseTextAndApply);
+        clearTableBtn.addEventListener("click", () => {
+          for (let r = 0; r < timetableBody.rows.length; r++) {
+            const row = timetableBody.rows[r];
+            for (let c = 1; c < row.cells.length; c++) {
+              row.cells[c].textContent = "";
+            }
+            updateRowHighlight(row);
+          }
+          rescanAllRowsForBold();
+        });
+        exportCsvBtn.addEventListener("click", exportCSV);
+
+        tabTextBtn.addEventListener("click", activateTextTab);
+        tabTableBtn.addEventListener("click", activateTableTab);
+
+        // Detect edits in contenteditable cells and update highlight
+        timetableBody.addEventListener("input", (e) => {
+          const el = e.target;
+          const tr = el && el.closest ? el.closest("tr") : null;
+          if (tr) updateRowHighlight(tr);
+        });
+
+        // Observe DOM mutations for formatting changes (e.g., toggling bold)
+        const boldObserver = new MutationObserver((mutations) => {
+          const seen = new Set();
+          for (const m of mutations) {
+            const node = m.target;
+            const el = node && node.nodeType === 3 ? node.parentElement : node;
+            const tr = el && el.closest ? el.closest("tr") : null;
+            if (tr && !seen.has(tr)) {
+              updateRowHighlight(tr);
+              seen.add(tr);
+            }
+          }
+        });
+        boldObserver.observe(timetableBody, {
+          childList: true,
+          subtree: true,
+          characterData: true
+        });
+
+      })();
+    </script>
+  </body>
+
+</html>

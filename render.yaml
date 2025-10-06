@@ -1,9 +1,10 @@
 services:
   - type: web
-    name: TKB
+    name: thoigianbieu
     env: python
-    workingDirectory: timetable
-    buildCommand: "pip install -r requirements.txt"
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
     startCommand: "gunicorn timetable.wsgi:application"
     envVars:
       - key: PYTHON_VERSION
